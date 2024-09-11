@@ -1,4 +1,4 @@
-package entity;
+package urna.virtual.entity;
 
 public enum Status {
     APTO,

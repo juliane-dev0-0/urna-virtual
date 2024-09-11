@@ -1,7 +1,8 @@
-package entity;
+package urna.virtual.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.Email;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,18 +15,20 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Eleitor extends Person {
+public class Candidato extends Person{
 
     @NotBlank
-    private String profissão;
+    @Column(unique = true)
+    private String numeroCanditado;
 
-    @NotBlank
-    private String celular;
+    @NotNull
+    private int funcao;
 
-    private String telefoneFixo;
+    private Status status;
 
-    @Email(message = "O e-mail deve ser válido.")
-    private String email;
+    @Transient
+    private Integer votosApurados;
+
 
 
 
