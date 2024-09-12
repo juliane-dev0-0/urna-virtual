@@ -63,4 +63,11 @@ public class CandidatoService {
         return response
                 .orElseThrow(() -> new NoSuchElementException("Candidato de id " + id + " não encontrado!") );
     }
+
+    public List<Candidato> findAllPrefeitos(){
+        return candidatoRepository.findAllByFuncao(1);
+    }
+    public List<Candidato> findAllVereadores(){
+        return candidatoRepository.findAllByFuncao(2);
+    }
 }

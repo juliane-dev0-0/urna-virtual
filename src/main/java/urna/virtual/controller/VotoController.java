@@ -4,6 +4,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import urna.virtual.entity.Apuracao;
 import urna.virtual.entity.Voto;
 import urna.virtual.service.VotoService;
 
@@ -27,8 +28,8 @@ public class VotoController {
     @PostMapping
     public ResponseEntity<?> realizarApuracao(){
         try{
-            votoService.realizarApuracao();
-            return ResponseEntity.ok("a");
+            Apuracao response =  votoService.realizarApuracao();
+            return ResponseEntity.ok(response);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

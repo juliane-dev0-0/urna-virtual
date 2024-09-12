@@ -2,14 +2,14 @@ package urna.virtual.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import urna.virtual.entity.Eleitor;
-import urna.virtual.entity.Voto;
+import urna.virtual.entity.*;
+import urna.virtual.repository.CandidatoRepository;
 import urna.virtual.repository.EleitorRepository;
+import urna.virtual.repository.VotoRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -17,6 +17,12 @@ public class VotoService {
 
     @Autowired
     EleitorRepository eleitorRepository;
+
+    @Autowired
+    VotoRepository votoRepository;
+
+    @Autowired
+    CandidatoService candidatoService;
 
     private Eleitor verificarVoto(Voto voto, Long eleitorId ) throws Exception {
         // Verificando vereador e prefeito
@@ -45,8 +51,23 @@ public class VotoService {
         voto.setDataHora(LocalDateTime.now());
         voto.setHash(hash);
     }
-    public void realizarApuracao(){
+    public Apuracao realizarApuracao(){
+        List<Candidato> prefeitos = candidatoService.findAllPrefeitos();
+        List<Candidato> vereadores = candidatoService.findAllVereadores();
 
+        HashMap<Candidato, Long> prefeitosEVotos = new HashMap<>();
+        HashMap<Candidato, Long> vereadoresEVotos = new HashMap<>();
+
+        for(Candidato candidato : prefeitos){
+            Long totalVotos = votoRepository.findVotosByCandidato(candidato);
+            prefeitosEVotos.put(candidato, totalVotos);
+        }
+        for(Candidato candidato : vereadores){
+            Long totalVotos = votoRepository.findVotosByCandidato(candidato);
+            vereadoresEVotos.put(candidato, totalVotos);
+        }
+
+        return new Apuracao(prefeitosEVotos, vereadoresEVotos);
     }
 
 }

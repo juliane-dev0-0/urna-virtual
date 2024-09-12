@@ -14,8 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Apuracao {
 
-    private int totalVotos;
-    private List<HashMap<Candidato, Integer>> ListaVereadorVotos;
-    private List<HashMap<Candidato, Integer>> ListaPrefeitoVotos;
+    // KEY = CANDIDATO, VALUE = VOTOS
+    private HashMap<Candidato, Long> ListaVereadorVotos;
+    private HashMap<Candidato, Long> ListaPrefeitoVotos;
 
 }
