@@ -16,9 +16,15 @@ public class CandidatoService {
     @Autowired
     CandidatoRepository candidatoRepository;
 
+    public void validarCandidato(Candidato candidato) throws Exception{
+        if(candidato.getFuncao() != 1 && candidato.getFuncao() != 2){
+            throw new RuntimeException("Função de candidato invalido! Tente 1 para prefeito e 2 para vereador");
+        }
+    }
 
     public Candidato create(Candidato candidato) throws Exception {
         candidato.setStatus(Status.ATIVO); //foi definido para ficar ativo assim que salvar o candidato
+        validarCandidato(candidato);
         return candidatoRepository.save(candidato);
     }
 
@@ -26,6 +32,7 @@ public class CandidatoService {
         if (!candidatoRepository.existsById(id)) {
             throw new NoSuchElementException("Candidato de id " + id + " não encontrado!");
         }
+        validarCandidato(candidato);
         candidato.setId(id);
         return candidatoRepository.save(candidato);
     }

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,5 +36,6 @@ public class Voto{
 
     @NotBlank
     private String hash;
+
 
 }

@@ -50,6 +50,10 @@ public class Person {
     public void setPendente(){
         this.status = Status.PENDENTE;
     }
+    public void setVotou(){
+        this.status = Status.VOTOU;
+    }
+
 
     public boolean isInativo(){
         return this.status == Status.INATIVO;
@@ -65,6 +69,10 @@ public class Person {
 
     public boolean isVotou(){
         return this.status == Status.VOTOU;
+    }
+
+    public boolean isApto(){
+        return this.status == Status.APTO;
     }
 
 
