@@ -1,7 +1,11 @@
 package urna.virtual.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +16,7 @@ import org.hibernate.validator.constraints.br.CPF;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @MappedSuperclass
 public class Person {
 
@@ -21,10 +26,46 @@ public class Person {
 
     @NotBlank
     private String nome;
+
     @CPF
     private String cpf;
 
+    @NotNull
+    // @JsonIgnore
     private Status status;
+
+    public Person(String nome, String cpf, Status status) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.status = status;
+    }
+
+    public void setInativo(){ this.status = Status.INATIVO; }
+    public void setApto(){
+        this.status = Status.APTO;
+    }
+    public void setBloqueado(){
+        this.status = Status.BLOQUEADO;
+    }
+    public void setPendente(){
+        this.status = Status.PENDENTE;
+    }
+
+    public boolean isInativo(){
+        return this.status == Status.INATIVO;
+    }
+
+    public boolean isPendente(){
+        return this.status == Status.PENDENTE;
+    }
+
+    public boolean isBloqueado(){
+        return this.status == Status.BLOQUEADO;
+    }
+
+    public boolean isVotou(){
+        return this.status == Status.VOTOU;
+    }
 
 
 }

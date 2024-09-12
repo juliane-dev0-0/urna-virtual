@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Getter
 @Setter
@@ -17,14 +18,17 @@ import lombok.Setter;
 @Entity
 public class Candidato extends Person{
 
+    @NotNull
+    @CPF
+    private String cpf;
+
     @NotBlank
     @Column(unique = true)
     private String numeroCanditado;
 
     @NotNull
+    // 1 é prefeito, 2 é vereador !
     private int funcao;
-
-    private Status status;
 
     @Transient
     private Integer votosApurados;
