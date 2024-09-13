@@ -15,7 +15,7 @@ public class VotoController {
     @Autowired
     VotoService votoService;
 
-    @PostMapping
+    @PostMapping("/voto")
     public ResponseEntity<?> votar(@RequestBody Voto voto , @RequestParam Long eleitorId){
         try{
            votoService.votar(voto, eleitorId);
@@ -25,7 +25,7 @@ public class VotoController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/apuracao")
     public ResponseEntity<?> realizarApuracao(){
         try{
             Apuracao response =  votoService.realizarApuracao();

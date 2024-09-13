@@ -59,11 +59,11 @@ public class VotoService {
         HashMap<Candidato, Long> vereadoresEVotos = new HashMap<>();
 
         for(Candidato candidato : prefeitos){
-            Long totalVotos = votoRepository.findVotosByCandidato(candidato);
+            Long totalVotos = votoRepository.findVotosByPrefeito(candidato);
             prefeitosEVotos.put(candidato, totalVotos);
         }
         for(Candidato candidato : vereadores){
-            Long totalVotos = votoRepository.findVotosByCandidato(candidato);
+            Long totalVotos = votoRepository.findVotosByVereador(candidato);
             vereadoresEVotos.put(candidato, totalVotos);
         }
 

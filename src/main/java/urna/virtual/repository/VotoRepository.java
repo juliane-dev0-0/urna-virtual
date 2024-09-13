@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface VotoRepository extends JpaRepository<Voto,Long> {
 
-    @Query("SELECT COUNT(*) from Voto v WHERE v.candidato = :candidato ")
-    public Long findVotosByCandidato(Candidato candidato);
+    @Query("SELECT COUNT(v) from Voto v WHERE v.prefeito = :prefeito ")
+    public Long findVotosByPrefeito(Candidato prefeito);
+
+    @Query("SELECT COUNT(v) from Voto v WHERE v.vereador = :vereador ")
+    public Long findVotosByVereador(Candidato vereador);
 }
