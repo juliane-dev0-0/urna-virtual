@@ -1,5 +1,6 @@
 package urna.virtual.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +32,7 @@ public class Person {
     private String cpf;
 
     @NotNull
-    // @JsonIgnore
+    //@JsonIgnore
     private Status status;
 
     public Person(String nome, String cpf, Status status) {

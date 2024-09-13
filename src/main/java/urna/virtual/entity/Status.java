@@ -1,5 +1,7 @@
 package urna.virtual.entity;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Status {
     APTO,
     INATIVO,
@@ -7,4 +9,4 @@ public enum Status {
     PENDENTE,
     VOTOU,
     ATIVO
-}
+    }

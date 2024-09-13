@@ -24,12 +24,32 @@ public class VotoService {
     @Autowired
     CandidatoService candidatoService;
 
+    @Autowired
+    CandidatoRepository candidatoRepository;
+
     private Eleitor verificarVoto(Voto voto, Long eleitorId ) throws Exception {
         // Verificando vereador e prefeito
-        if(voto.getPrefeito().getFuncao() != 1) {
+        if(voto.getPrefeito() == null || voto.getVereador() == null){
+            throw new RuntimeException("Insira o prefeito e vereador para realizar o voto!");
+        }
+
+        Optional<Candidato> prefeito = candidatoRepository.findById(voto
+                .getPrefeito()
+                .getId());
+        Optional<Candidato> vereador = candidatoRepository.findById(voto
+                .getVereador()
+                .getId());
+
+        if(prefeito.isEmpty()){
+            throw new RuntimeException("Prefeito de não encontrado no banco!");
+        }else if(vereador.isEmpty()){
+            throw new RuntimeException("Vereador de não encontrado no banco!");
+        }
+
+        if(prefeito.get().getFuncao() != 1) {
             throw new RuntimeException("O candidato escolhido para prefeito é um candidato a vereador. Refaça a requisição!");
         }
-        else if(voto.getVereador().getFuncao() != 2)  {
+        else if(vereador.get().getFuncao() != 2)  {
             throw new RuntimeException("O candidato escolhido para vereador é um candidato a prefeito. Refaça a requisição!");
         }
 
@@ -46,10 +66,13 @@ public class VotoService {
     public void votar(Voto voto , Long eleitorId) throws Exception{
         Eleitor eleitor = verificarVoto(voto, eleitorId);
         eleitor.setVotou();
+        eleitorRepository.save(eleitor);
 
         String hash = UUID.randomUUID().toString();
         voto.setDataHora(LocalDateTime.now());
         voto.setHash(hash);
+
+        votoRepository.save(voto);
     }
     public Apuracao realizarApuracao(){
         List<Candidato> prefeitos = candidatoService.findAllPrefeitos();
@@ -65,6 +88,7 @@ public class VotoService {
         for(Candidato candidato : vereadores){
             Long totalVotos = votoRepository.findVotosByVereador(candidato);
             vereadoresEVotos.put(candidato, totalVotos);
+
         }
 
         return new Apuracao(prefeitosEVotos, vereadoresEVotos);
