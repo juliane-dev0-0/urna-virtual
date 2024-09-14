@@ -43,4 +43,18 @@ public class Candidato extends Person{
                 ", votosApurados: " + votosApurados + " }";
     }
 
+    public Candidato(String nome, String cpf, Status status, String numeroCanditado, int funcao, Long votosApurados) {
+        super(nome, cpf, status);
+        this.numeroCanditado = numeroCanditado;
+        this.funcao = funcao;
+        this.votosApurados = votosApurados;
+    }
+
+    public Candidato(Long id, String nome, String cpf, Status status, String numeroCanditado, int funcao, Long votosApurados) {
+        super(id ,nome, cpf, status);
+        this.numeroCanditado = numeroCanditado;
+        this.funcao = funcao;
+        this.votosApurados = votosApurados;
+    }
+
 }

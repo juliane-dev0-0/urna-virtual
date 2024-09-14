@@ -35,4 +35,11 @@ public class Eleitor extends Person {
         this.telefoneFixo = telefoneFixo;
         this.email = email;
     }
+    public Eleitor(Long id,String nome, String cpf, Status status, String profissao, String celular, String telefoneFixo, String email) {
+        super(id, nome, cpf, status);
+        this.profissao = profissao;
+        this.celular = celular;
+        this.telefoneFixo = telefoneFixo;
+        this.email = email;
+    }
 }
