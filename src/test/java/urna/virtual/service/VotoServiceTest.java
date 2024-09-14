@@ -53,11 +53,13 @@ class VotoServiceTest {
         prefeito.setId(1L);
         prefeito.setFuncao(1); // prefeito
         prefeito.setNome("Silvio Santos");
+        prefeito.setStatus(Status.ATIVO);
 
         Candidato vereador = new Candidato();
         vereador.setId(2L);
         vereador.setFuncao(2); // vereador
         vereador.setNome("Fátima Bernades");
+        vereador.setStatus(Status.ATIVO);
 
         Voto voto = new Voto();
         voto.setPrefeito(prefeito);
