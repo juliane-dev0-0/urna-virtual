@@ -15,11 +15,12 @@ public class VotoController {
     @Autowired
     VotoService votoService;
 
+    // O método votar() deverá receber como argumento um objeto da classe Voto e o id do eleitor.
     @PostMapping("/votar")
     public ResponseEntity<?> votar(@RequestBody Voto voto , @RequestParam Long eleitorId){
         try{
-           votoService.votar(voto, eleitorId);
-            return ResponseEntity.ok("Voto contabilizado!");
+           String response = votoService.votar(voto, eleitorId);
+            return ResponseEntity.ok(response);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

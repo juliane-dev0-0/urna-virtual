@@ -17,27 +17,37 @@ public class EleitorService {
     @Autowired
     EleitorRepository eleitorRepository;
 
-    public void verificarEleitor(Eleitor eleitor){
+    public void verificarEleitor(Eleitor eleitor) throws Exception {
+        // Verificando se eleitor ja existe e está bloqueado
+        eleitorRepository.findById(eleitor.getId())
+                .ifPresent(opEleitor -> {
+                    if (opEleitor.isBloqueado()) {
+                        throw new RuntimeException("Eleitor bloqueado!");
+                    }
+                });
+
         // Verificar pendencias
 
         // Em caso de atualização, se o eleitor já estiver INATIVO,
         // o status de inativo deverá ser mantido.
-        if(eleitor.getCpf() == null || eleitor.getEmail() == null && !eleitor.isInativo() ){
+        if(eleitor.getCpf() == null || eleitor.getEmail() == null && !eleitor.isInativo() && !eleitor.isBloqueado()){
             // Este status deverá ser atribuído quando o eleitor a ser salvo ou atualizado estiver: sem CPF ou sem endereço de e-mail cadastro.
+            System.out.println(eleitor.isBloqueado());
             eleitor.setPendente();
         }
         // Verificar status
-        else if(eleitor.isPendente() || eleitor.getStatus() == null){
+        else if(eleitor.isPendente() || eleitor.getStatus() == null ) {
             /* Este status deverá ser atribuído quando o eleitor a ser salvo ou atualizado:
                não tiver pendência de cadastro,
                não estiver inativo,
                não estiver bloqueado e
-                não tiver votado. */
+               não tiver votado. */
             eleitor.setApto();
         }
     }
 
     public Eleitor create(Eleitor eleitor) throws Exception {
+        eleitor.setId(0L);
         verificarEleitor(eleitor);
         return eleitorRepository.save(eleitor);
     }
@@ -46,9 +56,8 @@ public class EleitorService {
         if (!eleitorRepository.existsById(id)) {
             throw new NoSuchElementException("Eleitor de id " + id + " não encontrado!");
         }
-
-        verificarEleitor(eleitor);
         eleitor.setId(id);
+        verificarEleitor(eleitor);
         return eleitorRepository.save(eleitor);
     }
 
@@ -65,8 +74,6 @@ public class EleitorService {
             eleitor.setInativo();
             eleitorRepository.save(eleitor);
         }
-
-        // eleitorRepository.deleteById(id);
     }
 
     public List<Eleitor> findAll() throws Exception {

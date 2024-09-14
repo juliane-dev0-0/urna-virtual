@@ -14,8 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Apuracao {
 
-    // KEY = CANDIDATO, VALUE = VOTOS
-    private HashMap<Candidato, Long> ListaVereadorVotos;
-    private HashMap<Candidato, Long> ListaPrefeitoVotos;
+    // Esta classe deverá conter o total de votos (inteiro),
+    // uma lista de objetos dos candidatos a prefeito
+    // e uma lista de objetos dos candidatos a vereador.
+
+    private List<Candidato> vereadores;
+    private List<Candidato> prefeitos;
+    private Long TotalVotos;
 
 }

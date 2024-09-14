@@ -35,6 +35,7 @@ public class CandidatoService {
         }
         validarCandidato(candidato);
         candidato.setId(id);
+        candidato.setStatus(Status.ATIVO);
         return candidatoRepository.save(candidato);
     }
 

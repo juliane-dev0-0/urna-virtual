@@ -14,4 +14,6 @@ public interface VotoRepository extends JpaRepository<Voto,Long> {
 
     @Query("SELECT COUNT(v) from Voto v WHERE v.vereador = :vereador ")
     public Long findVotosByVereador(Candidato vereador);
+
+
 }

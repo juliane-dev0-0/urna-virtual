@@ -46,7 +46,7 @@ class CandidatoServiceTest {
               "14127125993",
               "1230",
               1,
-              50
+              50L
       );
       candidato1.setNome("jose claudio");
 
@@ -70,7 +70,7 @@ class CandidatoServiceTest {
                 "14127125993",
                 "123",
                 2,
-                529
+                529L
         );
         candidato1.setNome("fulano");
         candidato1.setStatus(Status.ATIVO);
@@ -79,7 +79,7 @@ class CandidatoServiceTest {
                 "1000000000",
                 "234",
                 1,
-                800
+                800L
         );
         candidato2.setStatus(Status.INATIVO);
 

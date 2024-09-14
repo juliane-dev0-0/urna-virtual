@@ -75,6 +75,9 @@ public class Person {
     public boolean isApto(){
         return this.status == Status.APTO;
     }
+    public boolean isAtivo(){
+        return this.status == Status.ATIVO;
+    }
 
 
 }
