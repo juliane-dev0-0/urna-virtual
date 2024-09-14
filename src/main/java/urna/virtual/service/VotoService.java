@@ -27,7 +27,7 @@ public class VotoService {
     @Autowired
     CandidatoRepository candidatoRepository;
 
-    private Eleitor verificarVoto(Voto voto, Long eleitorId ) throws Exception {
+    public Eleitor verificarVoto(Voto voto, Long eleitorId ) throws Exception {
         // Verificando vereador e prefeito
         if(voto.getPrefeito() == null || voto.getVereador() == null){
             throw new RuntimeException("Insira o prefeito e vereador para realizar o voto!");
@@ -70,7 +70,7 @@ public class VotoService {
             // Este status deverá ser atribuído quando um eleitor com status PENDENTE tentar votar
             eleitor.get().setBloqueado();
             eleitorRepository.save(eleitor.get());
-            throw new RuntimeException("Usuário com cadastro pendente tentou votar. O usuário será bloqueado!");
+            throw new IllegalStateException("Usuário com cadastro pendente tentou votar. O usuário será bloqueado!");
         }
         // Somente eleitores com status APTO poderão votar.
         else if(!eleitor.get().isApto()){
