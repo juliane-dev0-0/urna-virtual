@@ -26,7 +26,6 @@ class CandidatoServiceTest {
     @Autowired
     Candidato candidato;
 
-
     @Mock
     private CandidatoRepository candidatoRepository;
 
@@ -94,4 +93,6 @@ class CandidatoServiceTest {
                 .extracting(Candidato::getStatus)
                 .containsOnly(Status.ATIVO);
     }
+
+
 }
