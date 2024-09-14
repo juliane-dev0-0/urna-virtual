@@ -28,10 +28,10 @@ class CandidatoServiceTest {
 
 
     @Mock
-    private CandidatoRepository candidatoRepository; // Mock do repositório
+    private CandidatoRepository candidatoRepository;
 
     @InjectMocks
-    private CandidatoService candidatoService; // Serviço com o repositório mockado injetado
+    private CandidatoService candidatoService;
 
     @BeforeEach
     void setUp() {
@@ -49,10 +49,14 @@ class CandidatoServiceTest {
               1,
               50
       );
+      candidato1.setNome("jose claudio");
+
 
         try{
             candidatoService.create(candidato1);
-            Assertions.assertEquals(Status.APTO ,candidato1.getStatus() );
+
+            Assertions.assertEquals(Status.ATIVO ,candidato1.getStatus() );
+            System.out.println(candidato1);
         }catch(Exception ignored){
 
         }

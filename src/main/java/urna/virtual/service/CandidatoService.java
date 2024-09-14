@@ -53,11 +53,11 @@ public class CandidatoService {
     }
 
     public List<Candidato> findAll() {
-        return candidatoRepository.findAll().stream()
-                .filter(c -> c.getStatus() == Status.ATIVO)
-                .collect(Collectors.toList());
+        return candidatoRepository.findAll().stream() //stream transforma os elementos em algu funcional, filtro,  mapeamento essas coisas
+                .filter(c -> c.getStatus() == Status.ATIVO) // mandando um fltro aqui, ele pega o candidato e filtra pelo
+                // status pq no findall só pode aparecer candidatos ativos
+                .collect(Collectors.toList());//o collect vai converter o strem filtrado em uma lista <('-')>
     }
-
 
 
     public Candidato findById(Long id) throws Exception {
