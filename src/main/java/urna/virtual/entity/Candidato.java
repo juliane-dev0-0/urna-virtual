@@ -31,14 +31,7 @@ public class Candidato extends Person{
     private int funcao;
 
     @Transient
-    private Integer votosApurados;
-
-//    @Override
-//    public String toString() {
-//        return "{ nome: " + this.getNome()+ ", " + "numero: " + numeroCanditado + " }";
-//
-//        // return "Candidato{nome=" + this.getNome() + ", numero='" + numeroCanditado +  "'}";
-//    }
+    private Long votosApurados;
 
     @Override
     public String toString() {
