@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.br.CPF;
 public class Candidato extends Person{
 
     @NotNull
-    @CPF
+    @CPF(message = "CPF inválido!")
     private String cpf;
 
     @NotBlank
@@ -33,10 +33,21 @@ public class Candidato extends Person{
     @Transient
     private Integer votosApurados;
 
+//    @Override
+//    public String toString() {
+//        return "{ nome: " + this.getNome()+ ", " + "numero: " + numeroCanditado + " }";
+//
+//        // return "Candidato{nome=" + this.getNome() + ", numero='" + numeroCanditado +  "'}";
+//    }
+
     @Override
     public String toString() {
-        return "{ nome: " + this.getNome()+ ", " + "numero: " + numeroCanditado + " }";
-
-        // return "Candidato{nome=" + this.getNome() + ", numero='" + numeroCanditado +  "'}";
+        return "{ nome: " + this.getNome() +
+                ", cpf: " + this.getCpf() +
+                ", numero: " + numeroCanditado +
+                ", funcao: " + funcao +
+                ", status: " + getStatus() +
+                ", votosApurados: " + votosApurados + " }";
     }
+
 }

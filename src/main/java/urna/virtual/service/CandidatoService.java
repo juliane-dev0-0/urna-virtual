@@ -9,6 +9,7 @@ import urna.virtual.repository.CandidatoRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CandidatoService {
@@ -51,10 +52,12 @@ public class CandidatoService {
         }
     }
 
-    public List<Candidato> findAll() throws Exception {
-        return candidatoRepository.findAllByStatus(Status.ATIVO);
-        //vai retornar todos os candidatos ativos
+    public List<Candidato> findAll() {
+        return candidatoRepository.findAll().stream()
+                .filter(c -> c.getStatus() == Status.ATIVO)
+                .collect(Collectors.toList());
     }
+
 
 
     public Candidato findById(Long id) throws Exception {

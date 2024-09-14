@@ -1,8 +1,12 @@
 package urna.virtual.service;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import urna.virtual.entity.Candidato;
 import urna.virtual.entity.Status;
@@ -22,11 +26,18 @@ class CandidatoServiceTest {
     @Autowired
     Candidato candidato;
 
-    @Autowired
-    CandidatoService candidatoService;
 
-    @Autowired
-    CandidatoRepository candidatoRepository;
+    @Mock
+    private CandidatoRepository candidatoRepository; // Mock do repositório
+
+    @InjectMocks
+    private CandidatoService candidatoService; // Serviço com o repositório mockado injetado
+
+    @BeforeEach
+    void setUp() {
+        // Inicializa os mocks antes de cada teste
+        MockitoAnnotations.openMocks(this);
+    }
 
     @DisplayName("criando candidato")
     @Test
@@ -58,6 +69,7 @@ class CandidatoServiceTest {
                 2,
                 529
         );
+        candidato1.setNome("fulano");
         candidato1.setStatus(Status.ATIVO);
 
         Candidato candidato2 = new Candidato(
@@ -70,12 +82,12 @@ class CandidatoServiceTest {
 
 
         when(candidatoRepository.findAll()).thenReturn(List.of(candidato1, candidato2));
+
         List<Candidato> candidatosAtivos = candidatoService.findAll();
+        System.out.println(candidatosAtivos);
 
-        // Verificar se retorna os ATIVOS SOmente
-        assertThat(candidatosAtivos)//fznd a asserçao dos candidatos verificando os candidatos ativos
-                .extracting(Candidato::getStatus)// extrai o status do candidato
-                .containsOnly(Status.ATIVO); // aq mostra se está realmente ativo
-
+        assertThat(candidatosAtivos)
+                .extracting(Candidato::getStatus)
+                .containsOnly(Status.ATIVO);
     }
 }
