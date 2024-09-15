@@ -6,7 +6,7 @@ import urna.virtual.entity.Eleitor;
 
 import java.util.List;
 
-public interface EleitorRepository extends JpaRepository<Eleitor,Long> {
-    @Query("SELECT e FROM Eleitor e WHERE e.status != 1")
-    public List<Eleitor> findAllExcetoInativos();
-}
+    public interface EleitorRepository extends JpaRepository<Eleitor,Long> {
+        @Query("SELECT e FROM Eleitor e WHERE e.status != 1")
+        public List<Eleitor> findAllExcetoInativos();
+    }

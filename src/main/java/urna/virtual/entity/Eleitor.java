@@ -28,6 +28,20 @@ public class Eleitor extends Person {
     @Email(message = "O e-mail deve ser válido.")
     private String email;
 
+    @Override
+    public String toString() {
+        return "{\n" +
+                "  nome: " + this.getNome() + ",\n" +
+                "  cpf: " + this.getCpf() + ",\n" +
+                "  status: " + getStatus() + ",\n" +
+                "  profissao: " + profissao + ",\n" +
+                "  celular: " + celular + ",\n" +
+                "  telefone Fixo: " + telefoneFixo + ",\n" +
+                "  email: " + email + "\n" +
+                "}" + "\n"
+                ;
+    }
+
     public Eleitor(String nome, String cpf, Status status, String profissao, String celular, String telefoneFixo, String email) {
         super(nome, cpf, status);
         this.profissao = profissao;
