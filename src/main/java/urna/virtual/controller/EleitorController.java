@@ -53,7 +53,7 @@ public class EleitorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getExerciseById(@PathVariable Long id) {
+    public ResponseEntity<?> getById(@PathVariable Long id) {
         try {
             Eleitor response = eleitorService.findById(id);
             return ResponseEntity.ok(response);

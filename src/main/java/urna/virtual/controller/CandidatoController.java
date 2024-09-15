@@ -53,7 +53,7 @@ public class CandidatoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getExerciseById(@PathVariable Long id) {
+    public ResponseEntity<?> getById(@PathVariable Long id) {
         try {
             Candidato response = candidatoService.findById(id);
             return ResponseEntity.ok(response);
