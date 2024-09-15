@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import urna.virtual.entity.Candidato;
@@ -93,6 +94,35 @@ class CandidatoServiceTest {
                 .extracting(Candidato::getStatus)
                 .containsOnly(Status.ATIVO);
     }
+    @Test// Enviando candidato com Funcao invalida
+    void verificarCandidato01(){
+        Candidato candidatoInvalido = new Candidato(
+                null, "candidato-01", "595.749.300-76", null, "2222", 3, null
+        );
 
+        Assertions.assertThrows(RuntimeException.class, () ->candidatoService.validarCandidato(candidatoInvalido));
+    }
 
+    @Test // Deletando um Candidato ativo
+    void delete01(){
+        Candidato candidato = new Candidato(
+                1L, "candidato-01", "595.749.300-76", Status.ATIVO, "2222", 2, 0L
+        );
+        Mockito.when(candidatoRepository.findById(1L)).thenReturn(Optional.of(candidato));
+
+        try {
+            candidatoService.delete(1L);
+            Assertions.assertEquals(Status.INATIVO, candidato.getStatus());
+        } catch (Exception ignored) {}
+    }
+
+    @Test // Deletando um Candidato já inativo
+    void delete02(){
+        Candidato candidato = new Candidato(
+                1L, "candidato-01", "595.749.300-76", Status.INATIVO, "2222", 2, 0L
+        );
+        Mockito.when(candidatoRepository.findById(1L)).thenReturn(Optional.of(candidato));
+        Assertions.assertThrows(RuntimeException.class, () -> candidatoService.delete(1L));
+
+    }
 }

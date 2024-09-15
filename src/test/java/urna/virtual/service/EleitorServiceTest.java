@@ -6,10 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import urna.virtual.entity.Candidato;
 import urna.virtual.entity.Eleitor;
 import urna.virtual.entity.Status;
 import urna.virtual.repository.EleitorRepository;
@@ -160,6 +159,41 @@ public class EleitorServiceTest {
                 .contains(Status.APTO);
 
         System.out.println(eleitoresAptos);
+    }
+
+    @Test// Deletando um Eleitor que ja votou
+    void delete01() {
+        Eleitor eleitor01 = new Eleitor(
+                1L, "eleitor001", "07535338984", Status.VOTOU, "Dev", "(45) 99830-3071", null, "email@email.com"
+        );
+        Mockito.when(eleitorRepository.findById(1L)).thenReturn(Optional.of(eleitor01));
+
+        Assertions.assertThrows(RuntimeException.class, () -> eleitorService.delete(1L));
+    }
+
+    @Test// Deletando um Eleitor Apto
+    void delete02() {
+        Eleitor eleitor01 = new Eleitor(
+                1L, "eleitor001", "07535338984", Status.APTO, "Dev", "(45) 99830-3071", null, "email@email.com"
+        );
+        Mockito.when(eleitorRepository.findById(1L)).thenReturn(Optional.of(eleitor01));
+        try {
+            eleitorService.delete(1L);
+            Assertions.assertEquals(Status.INATIVO, eleitor01.getStatus());
+        } catch (Exception ignored) {
+        }
+    }
+
+    @Test // Pegando um eleitor inativo
+    void findById(){
+        Eleitor eleitor01 = new Eleitor(
+                1L, "eleitor001", "07535338984", Status.INATIVO, "Dev", "(45) 99830-3071", null, "email@email.com"
+        );
+        Mockito.when(eleitorRepository.findById(1L)).thenReturn(Optional.of(eleitor01));
+        try {
+            Assertions.assertThrows(RuntimeException.class, () -> eleitorService.findById(1L));
+        } catch (Exception ignored) {
+        }
     }
 
 

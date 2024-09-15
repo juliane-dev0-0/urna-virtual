@@ -17,7 +17,7 @@ import urna.virtual.repository.EleitorRepository;
 import java.util.Optional;
 
 @SpringBootTest
-public class VotoServiceTest2 {
+public class VotoServiceTest {
 
     @Autowired
     VotoService votoService;
@@ -60,7 +60,7 @@ public class VotoServiceTest2 {
     }
 
     @Test // Voto com Eleitor e Candidatos OK.
-    void verificarVoto001()   {
+    void verificarVoto01()   {
         Candidato prefeito = new Candidato();
         Candidato vereador = new Candidato();
         prefeito.setId(20L);
@@ -71,7 +71,7 @@ public class VotoServiceTest2 {
         Assertions.assertDoesNotThrow(() -> votoService.verificarVoto(voto,10L) );
     }
     @Test // Voto com Vereador no lugar de prefeito.
-    void verificarVoto002()   {
+    void verificarVoto02()   {
         Candidato prefeito = new Candidato();
         Candidato vereador = new Candidato();
         prefeito.setId(20L);
@@ -82,7 +82,7 @@ public class VotoServiceTest2 {
         Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(voto, 10L));
     }
     @Test // Voto com Eleitor pendente e sendo bloqueado
-    void verificarVoto004()   {
+    void verificarVoto04()   {
         Candidato prefeito = new Candidato();
         Candidato vereador = new Candidato();
         prefeito.setId(20L);
@@ -94,7 +94,7 @@ public class VotoServiceTest2 {
     }
 
     @Test // Voto com Eleitor bloqueado
-    void verificarVoto003()   {
+    void verificarVoto03()   {
         Candidato prefeito = new Candidato();
         Candidato vereador = new Candidato();
         prefeito.setId(20L);
@@ -106,7 +106,7 @@ public class VotoServiceTest2 {
     }
 
     @Test // Voto com Candidatos inativos
-    void verificarVoto005()   {
+    void verificarVoto05()   {
         Candidato prefeito = new Candidato();
         Candidato vereador = new Candidato();
         prefeito.setId(21L);
