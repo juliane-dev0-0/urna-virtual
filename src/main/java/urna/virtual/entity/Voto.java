@@ -36,5 +36,16 @@ public class Voto{
     @NotBlank
     private String hash;
 
+    @Override
+    public String toString() {
+        return "Voto { \n" +
+                "  id =" + id + "\n" +
+                "  dataVoto =" + dataHora + "\n" +
+                "  prefeito =" + (prefeito != null ? "\n    " + prefeito.toString() : "Nenhum prefeito") + "\n" +
+                "  vereador =" + (vereador != null ? "\n    " + vereador.toString() : "Nenhum vereador") + "\n" +
+                "}";
+    }
+
+
 
 }
