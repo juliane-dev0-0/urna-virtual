@@ -26,7 +26,7 @@ public class CandidatoControllerTest {
     @MockBean
     CandidatoRepository candidatoRepository;
 
-    @Test
+    @Test // 400
     void update(){
         Candidato candidato = new Candidato(
                 1L, "candidato-01", "595.749.300-76",null, "2222", 2, 0L
@@ -36,6 +36,14 @@ public class CandidatoControllerTest {
 
         ResponseEntity<?> response = candidatoController.update(1L,candidato);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    @Test // 200
+    void update2(){
+        Mockito.when(candidatoRepository.existsById(1L)).thenReturn(false);
+        Mockito.when(candidatoRepository.findById(1L)).thenReturn(Optional.empty());
+
+        ResponseEntity<?> response = candidatoController.update(1L, new Candidato());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
     @Test
     void delete(){
@@ -48,6 +56,7 @@ public class CandidatoControllerTest {
         ResponseEntity<?> response = candidatoController.delete(1L);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+    @Test
     void delete2(){
         Candidato candidato = new Candidato(
                 1L, "candidato-01", "595.749.300-76", Status.INATIVO, "2222", 2, 0L
@@ -58,7 +67,7 @@ public class CandidatoControllerTest {
         ResponseEntity<?> response = candidatoController.delete(1L);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
-    @Test
+    @Test // 200
     void getById(){
         Candidato candidato = new Candidato(
                 1L, "candidato-01", "595.749.300-76",null, "2222", 2, 0L
@@ -69,7 +78,15 @@ public class CandidatoControllerTest {
         ResponseEntity<?> response = candidatoController.getById(1L);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-    @Test
+    @Test // 400
+    void getById2(){
+        Mockito.when(candidatoRepository.existsById(1L)).thenReturn(false);
+        Mockito.when(candidatoRepository.findById(1L)).thenReturn(Optional.empty());
+
+        ResponseEntity<?> response = candidatoController.getById(1L);
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+    @Test // 200
     void getAll(){
         Candidato candidato = new Candidato(
                 1L, "candidato-01", "595.749.300-76",null, "2222", 2, 0L
@@ -81,5 +98,12 @@ public class CandidatoControllerTest {
 
         ResponseEntity<?> response = candidatoController.getAll();
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    @Test // 400
+    void getAll2(){
+        Mockito.when(candidatoRepository.findAll()).thenReturn(null);
+
+        ResponseEntity<?> response = candidatoController.getAll();
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import urna.virtual.controller.EleitorController;
+import urna.virtual.entity.Candidato;
 import urna.virtual.entity.Eleitor;
 import urna.virtual.entity.Status;
 import urna.virtual.repository.EleitorRepository;
@@ -24,10 +25,9 @@ public class EleitorControllerTest {
     EleitorController eleitorController;
     @MockBean
     EleitorRepository eleitorRepository;
-    @MockBean
-    EleitorService eleitorService;
 
-    @Test
+
+    @Test // 200
     void update(){
         Eleitor eleitor01 = new Eleitor(
                 10L, "eleitor001", "07535338984", null, "Dev", "(45) 99830-3071", null, "email@email.com"
@@ -38,6 +38,14 @@ public class EleitorControllerTest {
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
     @Test
+    void update2(){ // 400
+        Mockito.when(eleitorRepository.existsById(10L)).thenReturn(false);
+        Mockito.when(eleitorRepository.findById(10L)).thenReturn(Optional.empty());
+
+        ResponseEntity<?> response = eleitorController.update(10L, new Eleitor());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+    @Test // 200
     void delete(){
         Eleitor eleitor01 = new Eleitor(
                 10L, "eleitor001", "07535338984", null, "Dev", "(45) 99830-3071", null, "email@email.com"
@@ -48,18 +56,15 @@ public class EleitorControllerTest {
         ResponseEntity<?> response = eleitorController.delete(10L);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-    @Test
+    @Test // 400
     void delete2(){
-        Eleitor eleitor01 = new Eleitor(
-                10L, "eleitor001", "07535338984", Status.VOTOU, "Dev", "(45) 99830-3071", null, "email@email.com"
-        );
-        Mockito.when(eleitorRepository.existsById(10L)).thenReturn(true);
-        Mockito.when(eleitorRepository.findById(10L)).thenReturn(Optional.of(eleitor01));
+        Mockito.when(eleitorRepository.existsById(10L)).thenReturn(false);
+        Mockito.when(eleitorRepository.findById(10L)).thenReturn(Optional.empty());
 
         ResponseEntity<?> response = eleitorController.delete(10L);
-        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
-    @Test
+    @Test // 200
     void getById(){
         Eleitor eleitor01 = new Eleitor(
                 10L, "eleitor001", "07535338984", null, "Dev", "(45) 99830-3071", null, "email@email.com"
@@ -70,7 +75,15 @@ public class EleitorControllerTest {
         ResponseEntity<?> response = eleitorController.getById(10L);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-    @Test
+    @Test // 400
+    void getById2(){
+        Mockito.when(eleitorRepository.existsById(10L)).thenReturn(false);
+        Mockito.when(eleitorRepository.findById(10L)).thenReturn(Optional.empty());
+
+        ResponseEntity<?> response = eleitorController.getById(10L);
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+    @Test // 200
     void getAll(){
         Eleitor eleitor01 = new Eleitor(
                 10L, "eleitor001", "07535338984", null, "Dev", "(45) 99830-3071", null, "email@email.com"
@@ -84,6 +97,5 @@ public class EleitorControllerTest {
         ResponseEntity<?> response = eleitorController.getAll();
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
 
 }
