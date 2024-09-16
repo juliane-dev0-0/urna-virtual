@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 import urna.virtual.entity.*;
 import urna.virtual.repository.CandidatoRepository;
 import urna.virtual.repository.EleitorRepository;
@@ -70,6 +71,8 @@ class VotoServiceTest {
         Mockito.when(candidatoRepository.findById(21L)).thenReturn(Optional.of(prefeitoInativo));
         Mockito.when(candidatoRepository.findById(31L)).thenReturn(Optional.of(vereadorInativo));
 
+        Mockito.when(candidatoRepository.findById(0L)).thenReturn(Optional.empty());
+
     }
 
     @DisplayName("Testar processo de votação")
@@ -124,16 +127,19 @@ class VotoServiceTest {
 
         Assertions.assertDoesNotThrow(() -> votoService.verificarVoto(voto,10L) );
     }
-    @Test // Voto com Vereador no lugar de prefeito.
+    @Test // Voto com Vereador no lugar de prefeito e vice-versa
     void verificarVoto002()   {
         Candidato prefeito = new Candidato();
         Candidato vereador = new Candidato();
         prefeito.setId(20L);
         vereador.setId(30L);
 
-        Voto voto = new Voto(0L, null, vereador, prefeito, null);
+        Voto voto = new Voto(0L, null, vereador, vereador, null);
+        Voto voto2 = new Voto(0L, null, prefeito, prefeito, null);
 
         Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(voto, 10L));
+        Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(voto2, 10L));
+
     }
     @Test // Voto com Eleitor pendente e sendo bloqueado
     void verificarVoto004()   {
@@ -161,16 +167,46 @@ class VotoServiceTest {
 
     @Test // Voto com Candidatos inativos
     void verificarVoto005()   {
-        Candidato prefeito = new Candidato();
-        Candidato vereador = new Candidato();
-        prefeito.setId(21L);
-        vereador.setId(31L);
+        Candidato prefeitoInativo = new Candidato();
+        Candidato vereadorInativo = new Candidato();
+        Candidato prefeitoAtivo = new Candidato();
+        Candidato vereadorAtivo = new Candidato();
+        prefeitoAtivo.setId(20L);
+        vereadorAtivo.setId(30L);
+        prefeitoInativo.setId(21L);
+        vereadorInativo.setId(31L);
 
-        Voto voto = new Voto(0L, null, prefeito, vereador, null);
+        Voto votoPrefeitoInativo = new Voto(0L, null, prefeitoInativo, vereadorAtivo, null);
+        Voto votoVereadorInativo = new Voto(0L, null, prefeitoAtivo, vereadorInativo, null);
 
-        Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(voto, 10L));
+        Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(votoPrefeitoInativo, 10L));
+        Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(votoVereadorInativo, 10L));
+    }
+    @Test // Candidatos nulos
+    void verificarVoto006(){
+        Voto votoNulo = new Voto(0L, null, null,  null, null);
+        Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(votoNulo, 10L));
     }
 
+    @Test // C/ candidatos nao achados no banco!
+    void verificarVoto007() throws Exception{
+        Candidato prefeitoNaoExistente = new Candidato();
+        Candidato vereadorNaoExistente = new Candidato();
+        Candidato prefeito = new Candidato();
+        Candidato vereador = new Candidato();
+        prefeitoNaoExistente.setId(0L);
+        vereadorNaoExistente.setId(0L);
+        prefeito.setId(20L);
+        vereador.setId(30L);
+
+
+        Voto votoPrefeitoNaoExistente = new Voto(0L, null, prefeitoNaoExistente,  vereador, null);
+        Voto votoVereadorNaoExistente = new Voto(0L, null, prefeito,  vereadorNaoExistente, null);
+
+        Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(votoPrefeitoNaoExistente, 10L));
+        Assertions.assertThrows(RuntimeException.class, () -> votoService.verificarVoto(votoVereadorNaoExistente, 10L));
+
+    }
 
 }
 
