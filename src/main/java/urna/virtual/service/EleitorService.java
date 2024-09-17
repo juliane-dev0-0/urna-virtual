@@ -77,7 +77,11 @@ public class EleitorService {
     }
 
     public List<Eleitor> findAll() throws Exception {
-        return eleitorRepository.findAllExcetoInativos();
+        List<Eleitor> eleitores = eleitorRepository.findAllExcetoInativos();
+        if (eleitores.isEmpty()) {
+            throw new Exception("Nenhum eleitor ativo encontrado.");
+        }
+        return eleitores;
     }
 
     public Eleitor findById(Long id) throws Exception {

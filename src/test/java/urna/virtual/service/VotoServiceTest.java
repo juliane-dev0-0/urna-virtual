@@ -9,7 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import urna.virtual.controller.VotoController;
 import urna.virtual.entity.*;
 import urna.virtual.repository.CandidatoRepository;
 import urna.virtual.repository.EleitorRepository;
@@ -20,6 +22,7 @@ import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 @SpringBootTest
 class VotoServiceTest {
@@ -29,6 +32,9 @@ class VotoServiceTest {
 
     @Mock
     private EleitorRepository eleitorRepository;
+
+    @Mock
+    private VotoController votoController;
 
     @Mock
     private VotoRepository votoRepository;
@@ -117,6 +123,7 @@ class VotoServiceTest {
         System.out.println("Voto salvo: Prefeito = " + voto.getPrefeito().getNome() +
                 ", Vereador = " + voto.getVereador().getNome() + ", Data = " + voto.getDataHora() + ", HASH = " + voto.getHash());
     }
+
     @Test // Voto com Eleitor e Candidatos OK.
     void verificarVoto001()   {
         Candidato prefeito = new Candidato();
