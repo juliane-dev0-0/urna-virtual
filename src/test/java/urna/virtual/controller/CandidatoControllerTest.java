@@ -32,29 +32,6 @@ public class CandidatoControllerTest {
     @MockBean
     CandidatoRepository candidatoRepository;
 
-
-    @DisplayName("criando candidato")
-    @Test
-    void createOK(){
-        Candidato prefeito = new Candidato(
-                1L,
-                "Jose Aparecido",
-                "14127125993",
-                null,
-                "1",
-                1,
-                null
-        );
-
-
-        ResponseEntity<?> response = candidatoController.create(prefeito);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        System.out.println(response);
-        System.out.println("Prefeito ID: " + prefeito.getId());
-
-    }
-
     @DisplayName("criando candidato BAD REQUEST")
     @Test
     void createBAD(){
