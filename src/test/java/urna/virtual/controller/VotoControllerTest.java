@@ -10,16 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import urna.virtual.entity.Candidato;
-import urna.virtual.entity.Eleitor;
-import urna.virtual.entity.Status;
-import urna.virtual.entity.Voto;
+import urna.virtual.entity.*;
 import urna.virtual.repository.CandidatoRepository;
 import urna.virtual.repository.EleitorRepository;
 import urna.virtual.repository.VotoRepository;
+import urna.virtual.service.CandidatoService;
 import urna.virtual.service.EleitorService;
 import urna.virtual.service.VotoService;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +34,9 @@ class VotoControllerTest {
 
     @MockBean
     VotoRepository votoRepository;
+
+    @MockBean
+    CandidatoService candidatoService;
 
     @Autowired
      VotoController votoController;

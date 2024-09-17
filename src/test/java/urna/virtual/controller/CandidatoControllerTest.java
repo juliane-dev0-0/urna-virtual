@@ -1,6 +1,8 @@
 package urna.virtual.controller;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,10 @@ import urna.virtual.repository.CandidatoRepository;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
 @SpringBootTest
 public class CandidatoControllerTest {
 
@@ -25,6 +31,42 @@ public class CandidatoControllerTest {
 
     @MockBean
     CandidatoRepository candidatoRepository;
+
+
+    @DisplayName("criando candidato")
+    @Test
+    void createOK(){
+        Candidato prefeito = new Candidato(
+                1L,
+                "Jose Aparecido",
+                "14127125993",
+                null,
+                "1",
+                1,
+                null
+        );
+
+
+        ResponseEntity<?> response = candidatoController.create(prefeito);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        System.out.println(response);
+        System.out.println("Prefeito ID: " + prefeito.getId());
+
+    }
+
+    @DisplayName("criando candidato BAD REQUEST")
+    @Test
+    void createBAD(){
+        Candidato prefeito = new Candidato();
+        prefeito.setId(10L);
+
+        ResponseEntity<?> response = candidatoController.create(prefeito);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+        System.out.println(response);
+        System.out.println("Prefeito ID: " + prefeito.getId());
+    }
 
     @Test // 400
     void update(){
